@@ -1,0 +1,20 @@
+{
+  "name": "odyssey-voyage",
+  "version": "1.0.0",
+  "repository": "https://github.com/csalih/odyssey-voyage.git",
+  "author": "Salih Candir <salih.candir@styleflasher.at>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "lerna run start"
+  },
+  "workspaces": [
+    "client",
+    "gateway",
+    "subgraph-locations",
+    "subgraph-reviews"
+  ],
+  "devDependencies": {
+    "lerna": "^5.5.4"
+  }
+}
