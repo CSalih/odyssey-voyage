@@ -1,18 +1,15 @@
 {
-  "name": "odyssey-voyage",
+  "name": "odyssey-voyage-flyby",
   "version": "1.0.0",
   "repository": "https://github.com/csalih/odyssey-voyage.git",
   "author": "Salih Candir <salih.candir@styleflasher.at>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "lerna run start"
+    "start": "lerna run start --stream --parallel"
   },
   "workspaces": [
-    "client",
-    "gateway",
-    "subgraph-locations",
-    "subgraph-reviews"
+    "packages/*"
   ],
   "devDependencies": {
     "lerna": "^5.5.4"
