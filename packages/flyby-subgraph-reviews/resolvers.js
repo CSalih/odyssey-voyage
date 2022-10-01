@@ -1,31 +1,46 @@
 const resolvers = {
   Query: {
-    latestReviews: (_, __, { dataSources }) => {
+    latestReviews: (_, __, {dataSources}) => {
       return dataSources.reviewsAPI.getLatestReviews();
     }
   },
-  Mutation: {
-    submitReview: (_, { locationReview }, { dataSources }) => {
-      const newReview = dataSources.reviewsAPI.submitReviewForLocation(locationReview);
-      return { code: 200, success: true, message: 'success', locationReview: newReview };
-    }
-  },
   Review: {
-    location: ({ locationId }) => {
-      return { id: locationId };
+    location: ({locationId}) => {
+      return {id: locationId};
     }
   },
   Location: {
-    __resolveReference: (refarencedLocation) => {
-      return refarencedLocation;
-    },
-    overallRating: ({ id }, _, { dataSources }) => {
+    overallRating: ({id}, _, {dataSources}) => {
       return dataSources.reviewsAPI.getOverallRatingForLocation(id);
     },
-    reviewsForLocation: ({ id }, _, { dataSources }) => {
+    reviews: ({id}, _, {dataSources}) => {
       return dataSources.reviewsAPI.getReviewsForLocation(id);
     }
   },
+  Activity: {
+    overallRating: ({id}, _, {dataSources}) => {
+      return dataSources.reviewsAPI.getOverallRatingForActivity(id);
+    },
+    reviews: ({id}, _, {dataSources}) => {
+      return dataSources.reviewsAPI.getReviewsForActivity(id);
+    }
+  },
+  Review: {
+    attraction: (review) => {
+      if (review.locationId) {
+        return { __typename: 'Location', id: review.locationId }
+      } else if (review.activityId) {
+        return { __typename: 'Activity', id: review.activityId }
+      }
+      return null
+    }
+  },
+  Mutation: {
+    submitReview: (_, {review}, {dataSources}) => {
+      const newReview = dataSources.reviewsAPI.submitReviewForLocation(review);
+      return {code: 200, success: true, message: 'success', review: newReview};
+    }
+  }
 };
 
 module.exports = resolvers;

@@ -1,0 +1,22 @@
+{
+  "name": "flyby-subgraph-activities",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon .",
+    "subgraph:publish": "rover subgraph publish $APOLLO_GRAPH_REF --schema ./activities.graphql --name activities --routing-url=http://localhost:4003"
+  },
+  "nodemonConfig": {
+    "ext": "*.js, *.graphql, *.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/subgraph": "^2.1.3",
+    "apollo-server": "^3.7.0",
+    "graphql": "^16.0.0",
+    "nodemon": "^2.0.13"
+  }
+}

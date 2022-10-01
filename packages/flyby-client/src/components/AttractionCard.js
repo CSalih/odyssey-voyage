@@ -10,16 +10,25 @@ import {
   usePrefersReducedMotion
 } from '@chakra-ui/react';
 import {Link} from 'react-router-dom';
+import {Terrain} from './Terrain';
 
-export default function LocationCard({
+export default function AttractionCard({
   id,
   name,
   photo,
   overallRating,
-  reviewsForLocation: reviews = []
+  reviews = [],
+  terrain,
+  location,
+  __typename
 }) {
   const {comment} = reviews[0] ?? {};
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  const attractionType = __typename === 'Location' ? 'location' : 'activity';
+  const isActivity = attractionType === 'activity';
+
+  const {name: locationName} = location ?? {};
 
   const zoomAnimation = prefersReducedMotion
     ? {}
@@ -29,7 +38,12 @@ export default function LocationCard({
       };
 
   return (
-    <Box role="group" overflow="hidden" as={Link} to={`/location/${id}`}>
+    <Box
+      role="group"
+      overflow="hidden"
+      as={Link}
+      to={`/${attractionType}/${id}`}
+    >
       <Box borderRadius="lg" maxHeight="250px" width="100%" overflow="hidden">
         <Image
           transition="0.3s all ease-in-out"
@@ -42,9 +56,17 @@ export default function LocationCard({
         />
       </Box>
       <Flex direction="column" p="3" justify="space-between" minH="120px">
-        <Heading as="h2" size="md" my="4">
-          {name}
-        </Heading>
+        <Flex direction="row" justify="space-between" alignItems="center">
+          <Flex direction="row" alignItems="center">
+            <Heading as="h2" size="md" my="4">
+              {name}
+            </Heading>
+            {isActivity && <Text mx="4">on {locationName}</Text>}
+          </Flex>
+          <Heading as="h3" size="sm" my="2" color="brand.200">
+            <Terrain terrain={terrain} />
+          </Heading>
+        </Flex>
         {overallRating ? (
           <Flex direction="column" minH="100px" justify="space-between">
             <Text as="i" noOfLines={2}>{`"${comment}"`}</Text>
@@ -63,10 +85,13 @@ export default function LocationCard({
   );
 }
 
-LocationCard.propTypes = {
+AttractionCard.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   photo: PropTypes.string,
   overallRating: PropTypes.number,
-  reviewsForLocation: PropTypes.array
+  reviews: PropTypes.array,
+  terrain: PropTypes.string,
+  __typename: PropTypes.string,
+  location: PropTypes.object
 };

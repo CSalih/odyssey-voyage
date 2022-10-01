@@ -1,6 +1,6 @@
 const {locations} = require('./locations_data.json');
 
-class LocationsAPI {
+class LocationsApi {
   getAllLocations() {
     return locations;
   }
@@ -10,4 +10,4 @@ class LocationsAPI {
   }
 }
 
-module.exports = LocationsAPI;
+module.exports = LocationsApi;
