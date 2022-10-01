@@ -7,7 +7,7 @@ type Query {
   location(id: ID!): Location
 }
 
-enum LocationTerrain {
+enum Terrain {
   TERRESTRIAL
   AERIAL
   AQUATIC
@@ -23,9 +23,11 @@ interface Attraction {
   description: String!
   "The attraction's main photo as a URL"
   photo: String!
+  "The attraction's terrain"
+  terrain: Terrain
 }
 
-type Location implements Attraction @key(fields: "id"){
+type Location implements Attraction @key(fields: "id") {
   id: ID!
   "The name of the location"
   name: String!
@@ -33,6 +35,30 @@ type Location implements Attraction @key(fields: "id"){
   description: String!
   "The location's main photo as a URL"
   photo: String!
-  "The location's terrain"
-  terrain: LocationTerrain!
+  "The terrain for an attraction"
+  terrain: Terrain!
+  "The location's stats"
+  stats: LocationStats!
+}
+
+interface Stats {
+  "The average temperature, in Fahrenheit"
+  averageTemperature: Int!
+  "The strength of the gravity field, in g units"
+  gravity: Float!
+  "The length of day, in minutes"
+  lengthOfDay: Int!
+  "The minimum age in years for participation on this attraction"
+  minimumAge: Int
+}
+
+type LocationStats implements Stats {
+  "The average temperature, in Fahrenheit"
+  averageTemperature: Int!
+  "The strength of the gravity field, in g units"
+  gravity: Float!
+  "The length of day, in minutes"
+  lengthOfDay: Int!
+  "The minimum age in years for participation on this attraction"
+  minimumAge: Int
 }
